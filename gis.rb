@@ -5,8 +5,8 @@ class Track
   def initialize(segments, name=nil)
     @name = name
     segment_objects = []
-    segments.each do |s|
-      segment_objects.append(TrackSegment.new(s))
+    segments.each do |segment|
+      segment_objects.append(TrackSegment.new(segment))
     end
     # set segments to segment_objects
     @segments = segment_objects
@@ -14,27 +14,30 @@ class Track
 
   def get_track_json()
     json_string = '{"type": "Feature", '
+
     if @name != nil
-      json_string+= '"properties": {'
-      json_string += '"title": "' + @name + '"'
-      json_string += '},'
+      json_string += '"properties": {"title": "' + @name + '"},'
     end
+
     json_string += '"geometry": {"type": "MultiLineString","coordinates": ['
+
     @segments.each_with_index do |segment, index|
       if index > 0
         json_string += ","
       end
+
       json_string += '['
       track_segment_json = ''
-      segment.coordinates.each do |c|
+      segment.coordinates.each do |coordinate|
+
         if track_segment_json != ''
           track_segment_json += ','
         end
         # Add the coordinate
         track_segment_json += '['
-        track_segment_json += "#{c.lon},#{c.lat}"
-        if c.ele != nil
-          track_segment_json += ",#{c.ele}"
+        track_segment_json += "#{coordinate.lon},#{coordinate.lat}"
+        if coordinate.ele != nil
+          track_segment_json += ",#{coordinate.ele}"
         end
         track_segment_json += ']'
       end
@@ -115,18 +118,18 @@ class World
   end
 
   def to_geojson(indent=0)
-    s = '{"type": "FeatureCollection","features": ['
-    @features.each_with_index do |f,i|
-      if i != 0
-        s +=","
+    segment = '{"type": "FeatureCollection","features": ['
+    @features.each_with_index do |feature,index|
+      if index != 0
+        segment +=","
       end
-        if f.class == Track
-            s += f.get_track_json
-        elsif f.class == Waypoint
-            s += f.get_waypoint_json
+        if feature.class == Track
+          segment += feature.get_track_json
+        elsif feature.class == Waypoint
+          segment += feature.get_waypoint_json
       end
     end
-    s + "]}"
+    segment + "]}"
   end
 end
 
