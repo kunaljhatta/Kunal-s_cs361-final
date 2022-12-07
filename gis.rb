@@ -88,14 +88,14 @@ end
 
 class Waypoint
 
-  attr_reader :lat, :lon, :ele, :name, :type
+  attr_reader :lat, :lon, :ele, :name, :point
 
-  def initialize(lon, lat, ele=nil, name=nil, type=nil)
+  def initialize(lon, lat, ele=nil, name=nil, point=nil)
     @lat = lat
     @lon = lon
     @ele = ele
     @name = name
-    @type = type
+    @point = point
   end
 
   def get_waypoint_json(indent=0)
@@ -106,16 +106,16 @@ class Waypoint
       json_string += ",#{@ele}"
     end
     json_string += ']},'
-    if name != nil or type != nil
+    if name != nil or point != nil
       json_string += '"properties": {'
       if name != nil
         json_string += '"title": "' + @name + '"'
       end
-      if type != nil 
+      if point != nil 
         if name != nil
           json_string += ','
         end
-        json_string += '"icon": "' + @type + '"'  # type is the icon
+        json_string += '"icon": "' + @point + '"'  # type is the icon
       end
       json_string += '}'
     end
@@ -126,9 +126,9 @@ end
 
 class World
 
-  def initialize(name, things)
+  def initialize(name, features)
     @name = name
-    @features = things
+    @features = features
   end
 
   def add_feature(f)
