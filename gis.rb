@@ -4,12 +4,7 @@ class Track
 
   def initialize(segments, name=nil)
     @name = name
-    segment_objects = []
-    segments.each do |segment|
-      segment_objects.append(TrackSegment.new(segment))
-    end
-    # set segments to segment_objects
-    @segments = segment_objects
+    @segments = segments
   end
 
   def get_track_json()
@@ -159,7 +154,7 @@ end
 def main()
   w = Waypoint.new(-121.5, 45.5, 30, "home", "flag")
   w2 = Waypoint.new(-121.5, 45.6, nil, "store", "dot")
-  
+
   ts1 = [
   Coordinate.new(-122, 45),
   Coordinate.new(-122, 46),
@@ -178,6 +173,12 @@ def main()
 
   t = Track.new([ts1, ts2], "track 1")
   t2 = Track.new([ts3], "track 2")
+  track_segment_one = TrackSegment.new(ts1)
+  track_segment_two = TrackSegment.new(ts2)
+  track_segment_three = TrackSegment.new(ts3)
+
+  t = Track.new([track_segment_one, track_segment_two], "track 1")
+  t2 = Track.new([track_segment_three], "track 2")
 
   world = World.new("My Data", [w, w2, t, t2])
 
