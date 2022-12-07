@@ -101,21 +101,21 @@ class Waypoint
   def get_waypoint_json(indent=0)
     json_string = '{"type": "Feature",'
     json_string += '"geometry": {"type": "Point","coordinates": '
-    json_string += "[#{@lon},#{@lat}"
+    json_string += "[#{lon},#{lat}"
     if ele != nil
-      json_string += ",#{@ele}"
+      json_string += ",#{ele}"
     end
     json_string += ']},'
     if name != nil or point != nil
       json_string += '"properties": {'
       if name != nil
-        json_string += '"title": "' + @name + '"'
+        json_string += '"title": "' + name + '"'
       end
       if point != nil 
         if name != nil
           json_string += ','
         end
-        json_string += '"icon": "' + @point + '"'  # type is the icon
+        json_string += '"icon": "' + point + '"'  # type is the icon
       end
       json_string += '}'
     end
