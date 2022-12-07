@@ -70,7 +70,7 @@ end
 
 class Waypoint
 
-attr_reader :lat, :lon, :ele, :name, :type
+  attr_reader :lat, :lon, :ele, :name, :type
 
   def initialize(lon, lat, ele=nil, name=nil, type=nil)
     @lat = lat
@@ -108,26 +108,26 @@ end
 
 class World
 
-def initialize(name, things)
-  @name = name
-  @features = things
-end
+  def initialize(name, things)
+    @name = name
+    @features = things
+  end
+  
+  def add_feature(f)
+    @features.append(t)
+  end
 
-def add_feature(f)
-  @features.append(t)
-end
-
-def to_geojson(indent=0)
-  s = '{"type": "FeatureCollection","features": ['
-  @features.each_with_index do |f,i|
-    if i != 0
-      s +=","
-    end
-    if f.class == Track
-      s += f.get_track_json
-    elsif f.class == Waypoint
-      s += f.get_waypoint_json
-    end
+  def to_geojson(indent=0)
+    s = '{"type": "FeatureCollection","features": ['
+    @features.each_with_index do |f,i|
+      if i != 0
+        s +=","
+      end
+        if f.class == Track
+            s += f.get_track_json
+        elsif f.class == Waypoint
+            s += f.get_waypoint_json
+      end
     end
     s + "]}"
   end
