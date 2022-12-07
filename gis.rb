@@ -7,7 +7,7 @@ class Track
     @segments = segments
   end
 
-  def get_json()
+  def to_json()
     json_string = '{"type": "Feature", '
 
     if @name != nil
@@ -98,7 +98,7 @@ class Waypoint
     @point = point
   end
 
-  def get_json(indent=0)
+  def to_json(indent=0)
     json_string = '{"type": "Feature",'
     json_string += '"geometry": {"type": "Point","coordinates": '
     json_string += "[#{lon},#{lat}"
@@ -135,16 +135,16 @@ class World
     @features.append(t)
   end
 
-  def to_geojson(indent=0)
+  def to_json(indent=0)
     segment = '{"type": "FeatureCollection","features": ['
     @features.each_with_index do |feature,index|
       if index != 0
         segment +=","
       end
         if feature.class == Track
-          segment += feature.get_json
+          segment += feature.to_json
         elsif feature.class == Waypoint
-          segment += feature.get_json
+          segment += feature.to_json
       end
     end
     segment + "]}"
@@ -182,7 +182,7 @@ def main()
 
   world = World.new("My Data", [w, w2, t, t2])
 
-  puts world.to_geojson()
+  puts world.to_json()
 end
 
 if File.identical?(__FILE__, $0)
