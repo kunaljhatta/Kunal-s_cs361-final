@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 class Track
+
   def initialize(segments, name=nil)
     @name = name
     segment_objects = []
@@ -46,8 +47,11 @@ class Track
     j + ']}}'
   end
 end
+
 class TrackSegment
+
   attr_reader :coordinates
+
   def initialize(coordinates)
     @coordinates = coordinates
   end
@@ -65,8 +69,6 @@ class Point
 end
 
 class Waypoint
-
-
 
 attr_reader :lat, :lon, :ele, :name, :type
 
@@ -105,25 +107,27 @@ attr_reader :lat, :lon, :ele, :name, :type
 end
 
 class World
+
 def initialize(name, things)
   @name = name
   @features = things
 end
-  def add_feature(f)
-    @features.append(t)
-  end
 
-  def to_geojson(indent=0)
-    s = '{"type": "FeatureCollection","features": ['
-    @features.each_with_index do |f,i|
-      if i != 0
-        s +=","
-      end
-        if f.class == Track
-            s += f.get_track_json
-        elsif f.class == Waypoint
-            s += f.get_waypoint_json
-      end
+def add_feature(f)
+  @features.append(t)
+end
+
+def to_geojson(indent=0)
+  s = '{"type": "FeatureCollection","features": ['
+  @features.each_with_index do |f,i|
+    if i != 0
+      s +=","
+    end
+    if f.class == Track
+      s += f.get_track_json
+    elsif f.class == Waypoint
+      s += f.get_waypoint_json
+    end
     end
     s + "]}"
   end
