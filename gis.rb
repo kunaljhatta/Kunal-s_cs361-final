@@ -13,35 +13,35 @@ class Track
   end
 
   def get_track_json()
-    j = '{"type": "Feature", '
+    json_string = '{"type": "Feature", '
     if @name != nil
-      j+= '"properties": {'
-      j += '"title": "' + @name + '"'
-      j += '},'
+      json_string+= '"properties": {'
+      json_string += '"title": "' + @name + '"'
+      json_string += '},'
     end
-    j += '"geometry": {"type": "MultiLineString","coordinates": ['
-    @segments.each_with_index do |s, index|
+    json_string += '"geometry": {"type": "MultiLineString","coordinates": ['
+    @segments.each_with_index do |segment, index|
       if index > 0
-        j += ","
+        json_string += ","
       end
-      j += '['
-      tsj = ''
-      s.coordinates.each do |c|
-        if tsj != ''
-          tsj += ','
+      json_string += '['
+      track_segment_json = ''
+      segment.coordinates.each do |c|
+        if track_segment_json != ''
+          track_segment_json += ','
         end
         # Add the coordinate
-        tsj += '['
-        tsj += "#{c.lon},#{c.lat}"
+        track_segment_json += '['
+        track_segment_json += "#{c.lon},#{c.lat}"
         if c.ele != nil
-          tsj += ",#{c.ele}"
+          track_segment_json += ",#{c.ele}"
         end
-        tsj += ']'
+        track_segment_json += ']'
       end
-      j+=tsj
-      j+=']'
+      json_string+=track_segment_json
+      json_string+=']'
     end
-    j + ']}}'
+    json_string + ']}}'
   end
 end
 
@@ -78,28 +78,28 @@ class Waypoint
   end
 
   def get_waypoint_json(indent=0)
-    j = '{"type": "Feature",'
-    j += '"geometry": {"type": "Point","coordinates": '
-    j += "[#{@lon},#{@lat}"
+    json_string = '{"type": "Feature",'
+    json_string += '"geometry": {"type": "Point","coordinates": '
+    json_string += "[#{@lon},#{@lat}"
     if ele != nil
-      j += ",#{@ele}"
+      json_string += ",#{@ele}"
     end
-    j += ']},'
+    json_string += ']},'
     if name != nil or type != nil
-      j += '"properties": {'
+      json_string += '"properties": {'
       if name != nil
-        j += '"title": "' + @name + '"'
+        json_string += '"title": "' + @name + '"'
       end
       if type != nil 
         if name != nil
-          j += ','
+          json_string += ','
         end
-        j += '"icon": "' + @type + '"'  # type is the icon
+        json_string += '"icon": "' + @type + '"'  # type is the icon
       end
-      j += '}'
+      json_string += '}'
     end
-    j += "}"
-    return j
+    json_string += "}"
+    return json_string
   end
 end
 
