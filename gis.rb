@@ -13,16 +13,13 @@ class Track
   end
 
   def get_track_json()
-    j = '{'
-    j += '"type": "Feature", '
+    j = '{"type": "Feature", '
     if @name != nil
       j+= '"properties": {'
       j += '"title": "' + @name + '"'
       j += '},'
     end
-    j += '"geometry": {'
-    j += '"type": "MultiLineString",'
-    j +='"coordinates": ['
+    j += '"geometry": {"type": "MultiLineString","coordinates": ['
     @segments.each_with_index do |s, index|
       if index > 0
         j += ","
@@ -112,7 +109,7 @@ class World
     @name = name
     @features = things
   end
-  
+
   def add_feature(f)
     @features.append(t)
   end
