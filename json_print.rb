@@ -2,6 +2,9 @@
 
 require 'json'
 
-puts JSON.generate(JSON.parse(ARGF.read), array_nl: "\n", object_nl: "\n", indent: "    ")
+puts JSON.generate(JSON.parse(ARGF.read), 
+                  array_nl: "\n", 
+                  object_nl: "\n", 
+                  indent: "    ")
 
 
